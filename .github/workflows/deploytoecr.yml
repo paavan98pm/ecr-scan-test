@@ -61,6 +61,10 @@ jobs:
         echo "HIGH_VULNERABILITIES: $HIGH_VULNERABILITIES"
         CRITICAL_VULNERABILITIES=$(aws ecr describe-image-scan-findings --repository-name my-ecr-repo --image-id imageTag=$IMAGE_TAG | jq -r .imageScanFindings.findingSeverityCounts.CRITICAL)
         echo "CRITICAL_VULNERABILITIES: $CRITICAL_VULNERABILITIES"
+        MEDIUM_VULNERABILITIES=$(aws ecr describe-image-scan-findings --repository-name my-ecr-repo --image-id imageTag=$IMAGE_TAG | jq -r .imageScanFindings.findingSeverityCounts.MEDIUM)
+        echo "MEDIUM_VULNERABILITIES: $MEDIUM_VULNERABILITIES"
+        LOW_VULNERABILITIES=$(aws ecr describe-image-scan-findings --repository-name my-ecr-repo --image-id imageTag=$IMAGE_TAG | jq -r .imageScanFindings.findingSeverityCounts.LOW)
+        echo "LOW_VULNERABILITIES: $LOW_VULNERABILITIES"
         if [[ $HIGH_VULNERABILITIES -gt 0 || $CRITICAL_VULNERABILITIES -gt 0 ]];
           then echo "ECR scan results have high or critical vulnerabilities. Cancelling deploy.";
           exit 1;
